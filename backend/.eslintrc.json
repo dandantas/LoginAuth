@@ -24,6 +24,8 @@
         "consistent-return": "off",
         "no-param-reassign": "off",
         "no-undef": "off",
-        "strict": "off"
+        "strict": "off",
+        "no-unused-vars": "off",
+        "no-console": "off"
     }
 }
