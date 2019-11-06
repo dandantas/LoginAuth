@@ -5,6 +5,7 @@ const User = use('App/Models/User');
 const Factory = use('Factory');
 
 trait('Test/ApiClient')
+trait('DatabaseTransactions')
 
 test('authentication testing - should return JWT token', async ({ assert, client }) => {
 
