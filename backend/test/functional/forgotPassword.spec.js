@@ -19,7 +19,7 @@ test('it should send an email', async ({ assert, client }) => {
         email: 'dantasmaarotti@gmail.com',
     }
 
-    await Factory.
+    const user = await Factory.
         model('App/Models/User').
         create(forgotPayload);
 
@@ -32,8 +32,15 @@ test('it should send an email', async ({ assert, client }) => {
     response.assertStatus(204)
 
     const recentEmail = Mail.pullRecent()
+
     assert.equal(recentEmail.message.to[0].address, forgotPayload.email)
 
+    const token = await user.tokens().first();
+
+    assert.include(token.toJSON(), {
+        user_id: user.id,
+        type: 'forgotpassword'
+    })
 
     Mail.restore()
 });

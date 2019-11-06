@@ -3,14 +3,28 @@
 const Mail = use('Mail');
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const User = use('App/Models/User')
+const { randomBytes } = require('crypto')
+const { promisify } = require('util');
 
+const Env = use('Env');
 class ForgotPasswordController {
     async store({ request }) {
         const email = request.input('email');
 
         const user = await User.findByOrFail('email', email);
 
-        await Mail.send('emails.forgotpassword', { name: user.name }, (message) => {
+        const random = await promisify(randomBytes)(16);
+
+        const token = random.toString('hex');
+
+        await user.tokens().create({
+            token,
+            type: "forgotpassword"
+        })
+
+        const resetPasswordUrl = `${Env.get('FRONT_URL')}/reset?token=${token}`;
+
+        await Mail.send('emails.forgotpassword', { name: user.name, resetPasswordUrl }, (message) => {
             message
                 .to(user.email)
                 .from('dantasmaaarotti@gmail.com')
