@@ -23,6 +23,7 @@
         "prettier/prettier": "off",
         "class-methods-use-this": "off",
         "consistent-return": "off",
-        "no-param-reassign": "off"
+        "no-param-reassign": "off",
+        "strict": "off"
     }
 }
