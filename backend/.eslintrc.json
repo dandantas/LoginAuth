@@ -12,6 +12,7 @@
         "prettier"
     ],
     "globals": {
+        "use": "readonly",
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
     },
@@ -22,11 +23,6 @@
         "prettier/prettier": "off",
         "class-methods-use-this": "off",
         "consistent-return": "off",
-        "no-param-reassign": "off",
-        "no-undef": "off",
-        "strict": "off",
-        "no-unused-vars": "off",
-        "no-console": "off",
-        "newline-after-import": "off"
+        "no-param-reassign": "off"
     }
 }

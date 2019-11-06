@@ -1,4 +1,4 @@
-'use strict'
+
 
 const Mail = use('Mail');
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */

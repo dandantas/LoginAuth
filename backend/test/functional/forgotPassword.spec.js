@@ -1,6 +1,4 @@
 const { test, trait } = use('Test/Suite')('Forgot Password')
-/** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
-const User = use('App/Models/User');
 /** @type {import('@adonisjs/lucid/src/Factory')} */
 const Factory = use('Factory');
 const Hash = use('Hash')
@@ -65,7 +63,7 @@ test('it should reset password definitively', async ({ assert, client }) => {
 
 })
 
-test('it cannot reset password after 2h of request', async ({ assert, client }) => {
+test('it cannot reset password after 2h of request', async ({ client }) => {
     const email = 'dantasmaarotti@gmail.com';
 
     const user = await Factory.model('App/Models/User').create({ email });

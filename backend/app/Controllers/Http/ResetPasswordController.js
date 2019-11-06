@@ -1,4 +1,4 @@
-'use strict'
+
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Token = use('App/Models/Token')
