@@ -5,6 +5,9 @@ const User = use('App/Models/User');
 const Factory = use('Factory');
 const Hash = use('Hash')
 const Mail = use('Mail')
+const Database = use('Database')
+const { subHours, format } = require('date-fns')
+
 
 trait('Test/ApiClient')
 trait('DatabaseTransactions')
@@ -59,5 +62,34 @@ test('it should reset password definitively', async ({ assert, client }) => {
     const checkPassword = await Hash.verify('123456', user.password);
 
     assert.isTrue(checkPassword);
+
+})
+
+test('it cannot reset password after 2h of request', async ({ assert, client }) => {
+    const email = 'dantasmaarotti@gmail.com';
+
+    const user = await Factory.model('App/Models/User').create({ email });
+    const userToken = await Factory.model('App/Models/Token').make();
+
+    await user.tokens().save(userToken);
+
+    const dateSub = format(subHours(new Date(), 2), 'yyyy-MM-dd HH:ii:ss');
+
+    await Database
+        .table('tokens')
+        .where('token', userToken.token)
+        .update('created_at', dateSub);
+
+    await userToken.reload();
+
+    const response = await client.post('/reset')
+        .send({
+            token: userToken.token,
+            password: '123456',
+            password_confirmation: '123456'
+        })
+        .end()
+
+    response.assertStatus(400)
 
 })
